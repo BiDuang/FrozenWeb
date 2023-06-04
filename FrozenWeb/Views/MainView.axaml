@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:FrozenWeb.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="750"
+             x:Class="FrozenWeb.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+        <Grid>
+            <Border Background="Gray" Opacity="0.4" Width="620" CornerRadius="10" Margin="10" />
+            <StackPanel Orientation="Horizontal" Margin="20">
+                <TextBlock Margin="0,5,0,0" Text="当前会话 ID: " />
+                <TextBlock Margin="10,6,0,0" FontSize="12" Width="300"
+                           Text="{Binding ConversationId, TargetNullValue='会话尚未开始'}"
+                           x:Name="ConversationIdBox" />
+                <Button Margin="170,0,0,0" Command="{Binding OnSessionReset}">
+                    <Button.Styles>
+                        <Style>
+                            <Style.Resources>
+                            </Style.Resources>
+                        </Style>
+                    </Button.Styles>
+                    <Grid>
+                        <ToolTip.Tip>
+                            <TextBlock>
+                                点击以重置当前会话 <LineBreak /> 当前的会话记录将被全部清空
+                            </TextBlock>
+                        </ToolTip.Tip>
+                        <PathIcon Data="{DynamicResource ArrowCounterclockwiseRegular}" Width="15" Height="15" />
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid>
+            <Border Background="SlateGray" Opacity="0.4" Width="620" Height="420" CornerRadius="10" Margin="10" />
+            <StackPanel Orientation="Vertical" Margin="0,20,0,0">
+                <ProgressBar Width="600" Height="5" IsIndeterminate="True" x:Name="ProgressBar"
+                             IsVisible="{Binding IsProcessing}" />
+                <TextBox Margin="0,10,0,0" Text="{Binding Conversations, TargetNullValue=''}" Width="600" Height="370"
+                         BorderThickness="0" Background="Transparent" IsReadOnly="True"
+                         x:Name="ConversationBox">
+                    <TextBox.Styles>
+                        <Style>
+                            <Style.Resources>
+                            </Style.Resources>
+                        </Style>
+                    </TextBox.Styles>
+                </TextBox>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid>
+            <Border Background="Gray" Opacity="0.4" Width="620" CornerRadius="10" Margin="10" />
+            <StackPanel Orientation="Horizontal" Width="620" Margin="10">
+
+                <TextBox Text="{Binding Question}" Watermark="在此输入您的问题" Margin="10" Width="500"
+                         Height="50" x:Name="InputBox" TextWrapping="Wrap" AcceptsReturn="False"
+                         KeyDown="InputBox_OnKeyDown" />
+                <Button Margin="10" Command="{Binding OnMessageSend}" Width="80" Height="50"
+                        Background="{DynamicResource SystemAccentColorLight2}">
+                    <PathIcon Data="{StaticResource SendRegular}" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+    </StackPanel>
+</UserControl>
